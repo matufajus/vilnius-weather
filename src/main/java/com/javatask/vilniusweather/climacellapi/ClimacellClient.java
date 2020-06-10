@@ -48,7 +48,7 @@ public class ClimacellClient {
 	private ObjectMapper objectMapper;
 
 	public Temperature getCurrentTemperature() {
-		log.debug("Making request to: " + urlRealTime);
+		log.info("Making request to: " + urlRealTime);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("apikey", key);
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -67,7 +67,7 @@ public class ClimacellClient {
 	}
 
 	public List<Temperature> getHistoricalTemperatureForDate(LocalDate date) {
-		log.debug("Making request to: " + urlHistorical);
+		log.info("Making request to: " + urlHistorical);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("apikey", key);
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -92,8 +92,12 @@ public class ClimacellClient {
 	public List<Temperature> getLastMonthTemperature() {
 		List<Temperature> temperaturesOfLastMonth = new ArrayList<Temperature>();
 		List<LocalDate> datesOfMonth = new ArrayList<LocalDate>();
-		for (int i = 0; i < 28; i++) {
-			datesOfMonth.add(LocalDate.now().minusDays(27 - i));
+		LocalDate from = LocalDate.now().minusMonths(1);
+		LocalDate to = LocalDate.now();
+		
+		while (!from.isAfter(to)) {
+			datesOfMonth.add(from);
+			from = from.plusDays(1);
 		}
 
 		for (LocalDate date : datesOfMonth) {

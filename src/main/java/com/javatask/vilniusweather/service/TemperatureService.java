@@ -47,17 +47,7 @@ public class TemperatureService {
 
 	public List<Temperature> getTemperaturesForEveryHour(LocalDateTime from, LocalDateTime to) {
 		List<Temperature> temperatures = temperatureRepository.getTemperatures(from, to);
-		List<Temperature> temperaturesForHour = new ArrayList<Temperature>();
-		while (!from.isAfter(to)) {
-			for (Temperature temperature : temperatures) {
-				if (temperature.getObservationTime().isAfter(from)
-						&& temperature.getObservationTime().isBefore(from.plusHours(1))) {
-					temperaturesForHour.add(temperature);
-				}
-				from = from.plusHours(1);
-			}
-		}
-		return temperaturesForHour;
+		return temperatures;
 	}
 
 	public List<Temperature> getAverageTemperaturesForHours(LocalDateTime from, LocalDateTime to, int hours) {

@@ -1,5 +1,6 @@
 package com.javatask.vilniusweather.controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class TemperatureController {
 
 	@GetMapping("/temperature/last/week")
 	public @ResponseBody List<Temperature> getTemperatureOfLastWeek() {
-		LocalDateTime from = LocalDateTime.now().minusWeeks(1);
+		LocalDateTime from = LocalDate.now().minusWeeks(1).atStartOfDay();
 		LocalDateTime to = LocalDateTime.now();
 		List<Temperature> temperatures = temperatureService.getAverageTemperaturesForHours(from, to, 8);
 		return temperatures;
@@ -52,7 +53,7 @@ public class TemperatureController {
 
 	@GetMapping("/temperature/last/month")
 	public @ResponseBody List<Temperature> getTemperatureOfLastMonth() {
-		LocalDateTime from = LocalDateTime.now().minusMonths(1);
+		LocalDateTime from = LocalDate.now().minusMonths(1).atStartOfDay();
 		LocalDateTime to = LocalDateTime.now();
 		List<Temperature> temperatures = temperatureService.getAverageTemperaturesForHours(from, to, 24);
 		return temperatures;
